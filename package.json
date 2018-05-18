@@ -1,0 +1,29 @@
+{
+  "name": "mevnlogin",
+  "version": "1.0.0",
+  "description": "login+chatclient",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "bootstrap": "^4.1.1",
+    "cors": "*",
+    "express": "*",
+    "jquery": "^3.3.1",
+    "jsonwebtoken": "*",
+    "module": "^1.2.5",
+    "mongoose": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "popper.js": "^1.14.3",
+    "socket.io": "^2.1.1",
+    "vue": "^2.5.16"
+  },
+  "author": "Amir Yamini",
+  "license": "ISC"
+}
