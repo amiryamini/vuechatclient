@@ -26,6 +26,7 @@ mongoose.connection.on('error', (err) => {
 const app = express();
 
 const users = require('./routes/users');
+const chats = require('./routes/chats');
 
 // Port Number
 const port = 3000;
