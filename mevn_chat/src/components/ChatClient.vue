@@ -1,114 +1,62 @@
 <template>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> -->
-]    <!-- <style>
-        #messages{height:300px;}
-    </style> -->
-</head>
-<body>
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3 col-sm-12">
                 <h1 class="text-center">
+                    ChatChit 
+                    <br>
                     <button id="clear" class="btn btn-danger">Clear</button>
                 </h1>
-                <div id="status"></div>
                 <div id="chat">
-                    <!-- <input type="text" id="username" class="form-control" placeholder="Enter name..."> -->
                     <br>
-                    <div class="card">
-                        <div id="messages" class="card-block">
-
-                        </div>
-                    </div>
-                    <br>
+                    <p>
+                    <label for="message">Message</label>
+                    </p>
                     <textarea id="textarea" class="form-control" placeholder="Enter message..."></textarea>
                 </div>
             </div>
         </div>
+        <button @click="register">Submit</button>
     </div>
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script> -->
-</body>
-</html> 
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'ChatClient',
   data () {
     return {
-    //   msg: 'Welcome to Your Vue.js App'
+      msg: 'ChatClient'
     }
   },
   methods: {
-      mongoose: require('mongodb').MongoClient,
-      io: require('socket.io').listen(4000).sockets,
-      chat () {
-        mongoose.connect('mongodb://127.0.0.1/chathistory', function(err, db){
-            if(err){
-                throw err;
-            }
-            console.log('MongoDB connected...');
-
-            //Connect to Socket.io
-            io.on('connection', function(){
-                let chat = db.collection('chats');
-
-                //Create function to send status
-                sendStatus = function(s){
-                    socket.emit('status', s);
-                }
-
-                // Get chats from mongo collection
-                chat.find().limit(100).sort({_id:1}).toArray(function(err, res){
-                    if(err){
-                        throw err;
-                    }
-
-                    // Emit the messages
-                    socket.emit('output', res);
-                });    
-                
-                 // Handle input events
-                socket.on('input', function(data){
-                    let name = data.name;
-                    let message = data.message;
-
-                    // Check for name and message
-                    if(message == ''){
-                        // Send error status
-                        sendStatus('Please enter a message');
-                    } else {
-                        // Insert message
-                        chat.insert({name: name, message: message}, function(){
-                            io.emit('output', [data]);
-
-                            // Send status object
-                            sendStatus({
-                                message: 'Message sent',
-                                clear: true
-                            });
-                        });
-                    }
-                });
-                // Handle clear
-                socket.on('clear', function(data){
-                    // Remove all chats from collection
-                    chat.remove({}, function(){
-                        // Emit cleared
-                        socket.emit('cleared');
-                    });
-                });
-            });
-        });
-      }
-  }
+      accepted() {
+    this.id = this.$route.params.id;
+    this.name = this.$route.params.name;
+  },
+            pushMessage () {
+                axios.post('http://localhost:3000/chats/chatClient',
+                {
+                    name: name,
+                    message: message
+                })
+            },
+            getMessage () {
+                axios.get('http://localhost:3000/chats/chatClient',
+                {
+                    name: name,
+                    messages: messages
+                })
+                .then((res) => {
+            // this.users.push(res.data)
+            console.log(res);
+            })
+            .catch(function(error){
+        console.log(error)
+      });  
+        } 
+    }
 }
 </script>
 
@@ -127,5 +75,9 @@ li {
 }
 a {
   color: #42b983;
+}
+textarea {
+    height: 300px;
+    width: 500px;
 }
 </style>
