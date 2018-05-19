@@ -7,6 +7,8 @@ npm install
 # server with hot reload at localhost:3000
 npm start
 
-# front end run at localhost:8080
+# vue.js directory
 cd mevn_stack
+
+# front end run at localhost:8080
 npm run dev
